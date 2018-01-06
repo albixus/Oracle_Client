@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "addwindow.h"
+#include "dbmenagement.h"
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -19,8 +21,12 @@ public:
 private slots:
     void on_addButton_clicked();
 
+    void on_selectComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
+    dbMenagement *db;
+    QString query_string;
 };
 
 #endif // MAINWINDOW_H
