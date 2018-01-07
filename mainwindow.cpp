@@ -8,13 +8,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     db = new dbMenagement();
 
+
     if(db->open())
         QMessageBox::about(this,"HURRA","Udało się nawiązać połączenie z baza");
     else
         QMessageBox::about(this,"Połączenie","Nie udało się nawiązać połączenia z baza");
 
     on_selectComboBox_currentIndexChanged(0);
-  //  db->create_tables();
+    ui->tableView->setColumnWidth(0,100);
+    ui->tableView->setColumnWidth(1,150);
+    ui->tableView->setColumnWidth(2,150);
+    ui->tableView->setColumnWidth(3,150);
+    //  db->create_tables();
   //  db->create_sequences();
   //  QMessageBox::about(this,"HURRA","ok");
 }
@@ -80,6 +85,4 @@ void MainWindow::on_selectComboBox_currentIndexChanged(int index)
         ui->tableView->setModel(model);
         break;
     }
-
-    delete model;
 }

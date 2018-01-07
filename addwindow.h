@@ -27,6 +27,8 @@ private:
     QString query_string;
     Ui::addWindow *ui;
     enum tabs {PASSENGER, WORKER, TRAIN}current_tab;
+    bool string_check(QString str);
+    bool is_string_number(QString str);
 };
 
 #endif // ADDWINDOW_H
