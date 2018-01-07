@@ -19,9 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setColumnWidth(1,150);
     ui->tableView->setColumnWidth(2,150);
     ui->tableView->setColumnWidth(3,150);
-    //  db->create_tables();
-  //  db->create_sequences();
-  //  QMessageBox::about(this,"HURRA","ok");
+    //db->drop_all_tables();
+    // db->create_tables();
+    // db->create_sequences();
+    //  QMessageBox::about(this,"HURRA","ok");
 }
 
 MainWindow::~MainWindow()
@@ -33,14 +34,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_addButton_clicked()
 {
     //opening add dialog
-    addWindow *add_win = new addWindow(this);
+    addWindow *add_win = new addWindow(db,this);
     add_win->setModal(false);
     add_win->exec();
-
     query_string = add_win->get_query_string();
     if(db->query_execute(query_string))
         QMessageBox::about(this,"HURRA","Udało się INSERT");
     delete add_win;
+
 }
 
 void MainWindow::on_selectComboBox_currentIndexChanged(int index)
@@ -85,4 +86,16 @@ void MainWindow::on_selectComboBox_currentIndexChanged(int index)
         ui->tableView->setModel(model);
         break;
     }
+}
+
+
+
+void MainWindow::on_tableView_activated(const QModelIndex &index)
+{
+
+}
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+
 }

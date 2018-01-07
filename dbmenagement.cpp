@@ -42,7 +42,7 @@ bool dbMenagement::create_sequences()
        if(!sequence_query.exec("CREATE SEQUENCE pociag_seq"))
            status = false;
 
-       if(!sequence_query.exec("CREATE SEQUENCE stacja_seq;"))
+       if(!sequence_query.exec("CREATE SEQUENCE stacja_seq"))
            status = false;
 
        if(!sequence_query.exec("CREATE SEQUENCE przedzial_seq"))
