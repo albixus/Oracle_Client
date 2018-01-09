@@ -27,11 +27,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     addwindow.cpp \
-    dbmenagement.cpp
+    dbmenagement.cpp \
+    updatewindow.cpp
 
 HEADERS  += mainwindow.h \
     addwindow.h \
-    dbmenagement.h
+    dbmenagement.h \
+    updatewindow.h
 
 FORMS    += mainwindow.ui \
-    addwindow.ui
+    addwindow.ui \
+    updatewindow.ui

@@ -99,3 +99,13 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
 
 }
+
+void MainWindow::on_updateButton_clicked()
+{
+    updateWindow *update_win = new updateWindow(db,this);
+    update_win->setModal(false);
+    update_win->exec();
+    query_string = update_win->get_query_string();
+    if(db->query_execute(query_string))
+        QMessageBox::about(this,"HURRA","Modyfikacja danych powiodła się!");
+}

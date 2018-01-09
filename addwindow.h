@@ -16,6 +16,7 @@ class addWindow : public QDialog
 
 public:
     explicit addWindow(dbMenagement *db,QWidget *parent = 0);
+    explicit addWindow(QWidget *parent = 0);
     ~addWindow();
     QString get_query_string() { return query_string; }
 
