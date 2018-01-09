@@ -10,9 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     if(db->open())
-        QMessageBox::about(this,"HURRA","Udało się nawiązać połączenie z baza");
+        QMessageBox::about(this,"OK","Udało się nawiązać połączenie z baza");
     else
-        QMessageBox::about(this,"Połączenie","Nie udało się nawiązać połączenia z baza");
+        QMessageBox::critical(this,"Błąd","Nie udało się nawiązać połączenia z baza");
 
     on_selectComboBox_currentIndexChanged(0);
     ui->tableView->setColumnWidth(0,100);
@@ -112,4 +112,18 @@ void MainWindow::on_updateButton_clicked()
             QMessageBox::critical(this,"Błąd!","Modyfikacja danych nie powiodła się!");
 
     delete update_win;
+}
+
+void MainWindow::on_deleteButton_clicked()
+{
+    deleteWindow *del_win = new deleteWindow(db,this);
+    del_win -> setModal(false);
+    del_win ->exec();
+
+    query_string = del_win->get_query_string();
+
+    if(db->query_execute(query_string))
+        QMessageBox::about(this,"OK","Modyfikacja danych powiodła się!");
+    else
+        QMessageBox::critical(this,"Błąd!","Modyfikacja danych nie powiodła się!");
 }

@@ -6,6 +6,7 @@
 #include "dbmenagement.h"
 #include "updatewindow.h"
 #include <QMessageBox>
+#include "deletewindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,8 @@ private slots:
     void on_tableView_clicked(const QModelIndex &index);
 
     void on_updateButton_clicked();
+
+    void on_deleteButton_clicked();
 
 private:
     Ui::MainWindow *ui;

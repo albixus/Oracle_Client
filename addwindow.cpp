@@ -366,3 +366,4 @@ void addWindow::get_id_from_table(QModelIndex index, QString &id_string)
     else
         QMessageBox::about(this,"Błąd","Zaznacz ID!");
 }
+
