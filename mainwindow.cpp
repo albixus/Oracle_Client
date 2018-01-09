@@ -38,10 +38,14 @@ void MainWindow::on_addButton_clicked()
     add_win->setModal(false);
     add_win->exec();
     query_string = add_win->get_query_string();
-    if(db->query_execute(query_string))
-        QMessageBox::about(this,"HURRA","Udało się INSERT");
-    delete add_win;
 
+    if(!add_win->is_canceled)
+        if(db->query_execute(query_string))
+            QMessageBox::about(this,"OK","Udało się dodać pozycję do bazy");
+        else
+            QMessageBox::critical(this,"Błąd","Nie udało się dodać do bazy");
+
+    delete add_win;
 }
 
 void MainWindow::on_selectComboBox_currentIndexChanged(int index)
@@ -88,17 +92,11 @@ void MainWindow::on_selectComboBox_currentIndexChanged(int index)
     }
 }
 
-
-
 void MainWindow::on_tableView_activated(const QModelIndex &index)
-{
-
-}
+{}
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
-{
-
-}
+{}
 
 void MainWindow::on_updateButton_clicked()
 {
@@ -106,6 +104,12 @@ void MainWindow::on_updateButton_clicked()
     update_win->setModal(false);
     update_win->exec();
     query_string = update_win->get_query_string();
-    if(db->query_execute(query_string))
-        QMessageBox::about(this,"HURRA","Modyfikacja danych powiodła się!");
+
+    if(!update_win->is_canceled)
+        if(db->query_execute(query_string))
+            QMessageBox::about(this,"OK","Modyfikacja danych powiodła się!");
+        else
+            QMessageBox::critical(this,"Błąd!","Modyfikacja danych nie powiodła się!");
+
+    delete update_win;
 }

@@ -19,6 +19,7 @@ public:
     explicit addWindow(QWidget *parent = 0);
     ~addWindow();
     QString get_query_string() { return query_string; }
+    bool is_canceled;
 
 private slots:
     void on_buttonBox_accepted();

@@ -28,13 +28,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     addwindow.cpp \
     dbmenagement.cpp \
-    updatewindow.cpp
+    updatewindow.cpp \
+    deletewindow.cpp
 
 HEADERS  += mainwindow.h \
     addwindow.h \
     dbmenagement.h \
-    updatewindow.h
+    updatewindow.h \
+    deletewindow.h
 
 FORMS    += mainwindow.ui \
     addwindow.ui \
-    updatewindow.ui
+    updatewindow.ui \
+    deletewindow.ui

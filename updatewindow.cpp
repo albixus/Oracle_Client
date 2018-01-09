@@ -22,6 +22,11 @@ updateWindow::updateWindow(dbMenagement *db,QWidget *parent) :
 updateWindow::~updateWindow()
 {
     delete ui;
+    delete model;
+    delete model2;
+    delete model3;
+    delete model4;
+    delete model5;
 }
 
 void updateWindow::on_tableView_Passenger_clicked(const QModelIndex &index)
@@ -37,15 +42,17 @@ void updateWindow::on_tableView_Passenger_clicked(const QModelIndex &index)
 
 void updateWindow::on_tabWidget_currentChanged(int index)
 {
-    QSqlQueryModel *model = new QSqlQueryModel;
-    QSqlQueryModel *model2 = new QSqlQueryModel;
-    QSqlQueryModel *model3 = new QSqlQueryModel;
-    QSqlQueryModel *model4 = new QSqlQueryModel;
+    model = new QSqlQueryModel;
+    model2 = new QSqlQueryModel;
+    model3 = new QSqlQueryModel;
+    model4 = new QSqlQueryModel;
+    model5 = new QSqlQueryModel;
 
     QSqlQuery query;
     QSqlQuery query2;
     QSqlQuery query3;
     QSqlQuery query4;
+    QSqlQuery query5;
 
     switch(index)
     {
@@ -96,7 +103,48 @@ void updateWindow::on_tabWidget_currentChanged(int index)
         query2 = db->select_query_execute("SELECT * FROM Pociag");
         model2->setQuery(query2);
         ui->tableView_trainworker_train->setModel(model2);
+        break;
 
+    case TRAIN_STOP:
+        query = db->select_query_execute("SELECT * FROM Polaczenie");
+        model->setQuery(query);
+        ui->tableView_trainstop_connection->setModel(model);
+
+        query2 = db->select_query_execute("SELECT * FROM Stacja");
+        model2->setQuery(query2);
+        ui->tableView_trainstop_station->setModel(model2);
+        break;
+
+    case ROUTE:
+        query = db->select_query_execute("SELECT * FROM Polaczenie");
+        model->setQuery(query);
+        ui->tableView_route_connection->setModel(model);
+
+        query2 = db->select_query_execute("SELECT * FROM Pociag");
+        model2->setQuery(query2);
+        ui->tableView_route_train->setModel(model2);
+        break;
+
+    case TICKET:
+        query = db->select_query_execute("SELECT * FROM Bilet");
+        model->setQuery(query);
+        ui->tableView_ticket->setModel(model);
+
+        query2 = db->select_query_execute("SELECT * FROM Pasazer");
+        model2->setQuery(query2);
+        ui->tableView_ticket_passenger->setModel(model2);
+
+        query3 = db->select_query_execute("SELECT * FROM Pracownik");
+        model3->setQuery(query3);
+        ui->tableView_ticket_worker->setModel(model3);
+
+        query4 = db->select_query_execute("SELECT * FROM Polaczenie");
+        model4->setQuery(query4);
+        ui->tableView_ticket_connection->setModel(model4);
+
+        query5 = db->select_query_execute("SELECT * FROM Przedzial");
+        model5->setQuery(query5);
+        ui->tableView_ticket_compartment->setModel(model5);
         break;
     }
 }
@@ -223,15 +271,46 @@ void updateWindow::on_buttonBox_accepted()
         query_string += id_string;
         break;
 
+    case TRAIN_STOP:
+        query_string += "Przystanek SET ID_Stacja = ";
+        query_string += id_string2;
+        query_string += " WHERE ID_Polaczenie = ";
+        query_string += id_string;
+        break;
 
+    case ROUTE:
+        query_string += "Trasa SET ID_Pociag = ";
+        query_string += id_string2;
+        query_string += " WHERE ID_Polaczenie = ";
+        query_string += id_string;
+        break;
+
+    case TICKET:
+        query_string += "Bilet SET Data_Wyjazdu = TO_DATE('";
+        query_string += ui->dateEdit_ticket_departure->text();
+        query_string += "','DD.MM.YYYY'), Data_Przyjazdu = TO_DATE('";
+        query_string += ui->dateEdit_ticket_arrival->text();
+        query_string += "','DD.MM.YYYY'), Numer_Miejsca = ";
+        query_string += ui->spinBox_ticket_seat->text();
+        query_string += ", ID_Pasazer = ";
+        query_string += id_string2;
+        query_string += ", ID_Pracownik = ";
+        query_string += id_string3;
+        query_string += ", ID_Polaczenie = ";
+        query_string += id_string4;
+        query_string += ", ID_Przedzial = ";
+        query_string += id_string5;
+        query_string += " WHERE ID_Bilet = ";
+        query_string += id_string;
     }
 
-
+    is_canceled = false;
     this->close();
 }
 
 void updateWindow::on_buttonBox_rejected()
 {
+    is_canceled = true;
     this->close();
 }
 
@@ -347,3 +426,74 @@ void updateWindow::on_tableView_trainworker_train_clicked(const QModelIndex &ind
 {
      get_id_from_table(index,id_string2);
 }
+
+void updateWindow::on_tableView_trainstop_connection_clicked(const QModelIndex &index)
+{
+    get_id_from_table(index,id_string);
+}
+
+void updateWindow::on_tableView_trainstop_station_clicked(const QModelIndex &index)
+{
+    get_id_from_table(index,id_string2);
+}
+
+void updateWindow::on_tableView_route_connection_clicked(const QModelIndex &index)
+{
+    get_id_from_table(index,id_string);
+}
+
+void updateWindow::on_tableView_route_train_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string2);
+}
+
+void updateWindow::on_tableView_ticket_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string);
+     QSqlQuery query;
+     query = db->select_query_execute("SELECT * FROM Bilet WHERE ID_Bilet = " + id_string);
+     query.next();
+
+     ui->dateEdit_ticket_departure->setDate(query.value(1).toDate());
+
+     ui->dateEdit_ticket_arrival->setDate(query.value(2).toDate());
+
+     ui->spinBox_ticket_seat->setValue(query.value(3).toInt());
+
+     QString passenger_id = query.value(4).toString();
+     ui->label_id_passenger->setText(passenger_id);
+
+     QString worker_id = query.value(5).toString();
+     ui->label_id_worker->setText(worker_id);
+
+     QString connection_id = query.value(6).toString();
+     ui->label_id_connection->setText(connection_id);
+
+     QString compartment_id = query.value(7).toString();
+     ui->label_id_compartment->setText(compartment_id);
+
+
+}
+
+void updateWindow::on_tableView_ticket_passenger_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string2);
+}
+
+void updateWindow::on_tableView_ticket_worker_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string3);
+}
+
+void updateWindow::on_tableView_ticket_connection_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string4);
+}
+
+void updateWindow::on_tableView_ticket_compartment_clicked(const QModelIndex &index)
+{
+     get_id_from_table(index,id_string5);
+}
+
+void updateWindow::on_updateWindow_finished(int result)
+{}

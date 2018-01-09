@@ -200,11 +200,13 @@ void addWindow::on_buttonBox_accepted()
         break;
     }
 
+    is_canceled = false;
     this->close();
 }
 
 void addWindow::on_buttonBox_rejected()
 {
+    is_canceled = true;
     this->close();
 }
 
