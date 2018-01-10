@@ -8,7 +8,6 @@ deleteWindow::deleteWindow(dbMenagement *db, QWidget *parent):
 {
       this->db =db;
       ui->setupUi(this);
-//      {PASSENGER, WORKER, TRAIN, STATION, COMPARTMENT, CONNECTION, TRAIN_WORKER, TRAIN_STOP, ROUTE, TICKET}current_tab;
 
      list = new QStringList();
      list->append("Pasazer");
@@ -37,8 +36,6 @@ deleteWindow::~deleteWindow()
 
 void deleteWindow::on_listView_clicked(const QModelIndex &index)
 {
-
-
     current_index = index.row();
     switch (current_index)
     {
@@ -87,17 +84,8 @@ void deleteWindow::select_all_from_table(QString table)
 
 void deleteWindow::on_tableView_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
-
-void deleteWindow::get_id_from_table(QModelIndex index, QString &id_string)
-{
-    if(index.column()==0)
-        id_string = index.data().toString();
-    else
-        QMessageBox::about(this,"Błąd","Zaznacz ID!");
-}
-
 
 void deleteWindow::on_buttonBox_accepted()
 {
@@ -129,18 +117,22 @@ void deleteWindow::on_buttonBox_accepted()
         query_string += id_string;
         break;
     case ROUTE:
-
+        query_string += "Trasa WHERE ID_Polaczenie = ";
+        query_string += id_string;
         break;
     case TRAIN_STOP:
+        query_string += "Przystanek WHERE ID_Polaczenie = ";
+        query_string += id_string;
         break;
     case TRAIN_WORKER:
+        query_string += "Pracownik_pociagu WHERE ID_Pracownik = ";
+        query_string += id_string;
         break;
     case CONNECTION:
         query_string += "Polaczenie WHERE ID_Polaczenie = ";
         query_string += id_string;
         break;
     }
-
     is_canceled = false;
     this->close();
 }

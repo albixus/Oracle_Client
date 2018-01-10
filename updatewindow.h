@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "dbmenagement.h"
 #include "addwindow.h"
+#include "check.h"
 
 namespace Ui {
 class updateWindow;
@@ -14,11 +15,17 @@ class updateWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit updateWindow(QWidget *parent = 0);    
-    explicit updateWindow(dbMenagement *db, QWidget *parent);
-    QString get_query_string() { return query_string; }
-    bool is_canceled;
+    explicit updateWindow(QWidget *parent = 0);
+
+    explicit updateWindow(dbMenagement *db, QWidget *parent);\
+
     ~updateWindow();
+
+    QString get_query_string() { return query_string; }
+
+public:
+    bool is_canceled;
+
 
 private slots:
     void on_tableView_Passenger_clicked(const QModelIndex &index);
@@ -75,8 +82,7 @@ private:
     Ui::updateWindow *ui;
     dbMenagement *db;
     enum tabs {PASSENGER, WORKER, TRAIN, STATION, COMPARTMENT, CONNECTION, TRAIN_WORKER, TRAIN_STOP, ROUTE, TICKET}current_tab;
-    bool string_check(QString str);
-    bool is_string_number(QString str);
+
     QString id_string;
     QString id_string2;
     QString id_string3;
@@ -89,8 +95,6 @@ private:
     QSqlQueryModel *model3;
     QSqlQueryModel *model4;
     QSqlQueryModel *model5;
-
-    void get_id_from_table(QModelIndex index, QString &id_string);
 };
 
 #endif // UPDATEWINDOW_H

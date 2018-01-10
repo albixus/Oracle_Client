@@ -29,15 +29,20 @@ SOURCES += main.cpp\
     addwindow.cpp \
     dbmenagement.cpp \
     updatewindow.cpp \
-    deletewindow.cpp
+    deletewindow.cpp \
+    check.cpp
 
 HEADERS  += mainwindow.h \
     addwindow.h \
     dbmenagement.h \
     updatewindow.h \
-    deletewindow.h
+    deletewindow.h \
+    check.h
 
 FORMS    += mainwindow.ui \
     addwindow.ui \
     updatewindow.ui \
     deletewindow.ui
+
+RESOURCES += \
+    resources.qrc

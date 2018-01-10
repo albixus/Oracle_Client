@@ -34,17 +34,17 @@ void addWindow::on_buttonBox_accepted()
     switch(current_tab)
     {
     case PASSENGER:
-        if(!string_check(ui->lineEdit_Name_Passenger->text()))
+        if(!check::string_check(ui->lineEdit_Name_Passenger->text()))
         {
             QMessageBox::about(this,"Błąd","W Imieniu nie może znajdować się cyfra!");
             return;
         }
-        if(!string_check(ui->lineEdit_Surname_Passenger->text()))
+        if(!check::string_check(ui->lineEdit_Surname_Passenger->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwisku nie może znajdować się cyfra!");
             return;
         }
-        if(!is_string_number(ui->lineEdit_Phone_Passenger->text()))
+        if(!check::is_string_number(ui->lineEdit_Phone_Passenger->text()))
         {
             QMessageBox::about(this,"Błąd","W Numerze telefonu nie moze znajdować się litera!");
             return;
@@ -66,13 +66,13 @@ void addWindow::on_buttonBox_accepted()
         break;
 
     case WORKER:
-        if(!string_check(ui->lineEdit_Name_Worker->text()))
+        if(!check::string_check(ui->lineEdit_Name_Worker->text()))
         {
             QMessageBox::about(this,"Błąd","W Imieniu nie może znajdować się cyfra!");
             return;
         }
 
-        if(!string_check(ui->lineEdit_Surname_Worker->text()))
+        if(!check::string_check(ui->lineEdit_Surname_Worker->text()))
         {
             QMessageBox::about(this,"Błąd","W Imieniu nie może znajdować się cyfra!");
             return;
@@ -93,7 +93,7 @@ void addWindow::on_buttonBox_accepted()
         break;
 
     case TRAIN:
-        if(!string_check(ui->lineEdit_train_Name->text()))
+        if(!check::string_check(ui->lineEdit_train_Name->text()))
         {
             QMessageBox::about(this,"Błąd","W nazwie pociągu nie może znajdować się cyfra!");
             return;
@@ -113,7 +113,7 @@ void addWindow::on_buttonBox_accepted()
         break;
 
     case STATION:
-        if(!string_check(ui->lineEdi_Name_Station->text()))
+        if(!check::string_check(ui->lineEdi_Name_Station->text()))
         {
             QMessageBox::about(this,"Błąd","W nazwie stacji nie może znajdować się cyfra!");
             return;
@@ -136,7 +136,7 @@ void addWindow::on_buttonBox_accepted()
         break;
 
      case CONNECTION:
-        if((!string_check(ui->lineEdit_Arrival->text()))||(!string_check(ui->lineEdit_Departure->text())))
+        if((!check::string_check(ui->lineEdit_Arrival->text()))||(!check::string_check(ui->lineEdit_Departure->text())))
         {
             QMessageBox::about(this,"Bład","Wykryto cyfrę w nazwie miejscowości! Zmień to!");
             return;
@@ -208,29 +208,6 @@ void addWindow::on_buttonBox_rejected()
 {
     is_canceled = true;
     this->close();
-}
-
-bool addWindow::string_check(QString str)
-{
-    std::string stdstr = str.toStdString();
-    for(unsigned int i =0; i<stdstr.size(); i++)
-    {
-        if(std::isdigit(stdstr.at(i)))
-          return false;
-    }
-    return true;
-}
-
-bool addWindow::is_string_number(QString str)
-{
-    std::string stdstr = str.toStdString();
-    for(unsigned int i =0; i<stdstr.size(); i++)
-    {
-        if(std::isdigit(stdstr.at(i)))
-          continue;
-        return false;
-    }
-    return true;
 }
 
 void addWindow::on_tabs_currentChanged(int index)
@@ -306,64 +283,56 @@ void addWindow::on_tabs_currentChanged(int index)
 
 void addWindow::on_tableView_Compartment_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
 
 void addWindow::on_tableView_trainworker_worker_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
 
 void addWindow::on_tableView_trainworker_train_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void addWindow::on_tableView_connection_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string);
+     check::get_id_from_table(index,id_string,this);
 }
 
 void addWindow::on_tableView_station_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string2);
+   check::get_id_from_table(index,id_string2,this);
 }
 
 void addWindow::on_tableView_Route_Connection_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
 
 void addWindow::on_tableView_Route_Train_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void addWindow::on_tableView_ticket_passenger_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
 
 void addWindow::on_tableView_ticket_worker_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void addWindow::on_tableView_ticket_connection_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string3);
+     check::get_id_from_table(index,id_string3,this);
 }
 
 void addWindow::on_tableView_ticket_compartment_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string4);
-}
-
-void addWindow::get_id_from_table(QModelIndex index, QString &id_string)
-{
-    if(index.column()==0)
-        id_string = index.data().toString();
-    else
-        QMessageBox::about(this,"Błąd","Zaznacz ID!");
+     check::get_id_from_table(index,id_string4,this);
 }
 

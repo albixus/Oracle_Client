@@ -11,10 +11,102 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PKP Client</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/images/database.png</normaloff>:/icons/images/database.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow
+{
+	background-color: rgb(50, 50, 50);
+}
+
+QWidget
+{
+	background-color: rgb(50, 50, 50);
+	color: rgb(255, 255, 255);
+}
+
+QTableView
+{
+		background-color: rgb(70, 70, 70);
+	color: black;
+
+}
+
+QHeaderView::section
+{
+	background-color:rgb(117, 105, 105);
+	color: black;
+}
+
+QTabWidget
+{
+	background-color:rgb(137, 125, 125);
+	color:white;
+}
+
+QPushButton
+{
+	font: 10pt &quot;Microsoft JhengHei&quot;;
+	border: 2px solid rgb(26, 26, 26);	
+	border-radius: 5px;
+	padding:10px;
+}
+
+QPushButton:hover
+{	
+	
+	background-color: rgb(135, 135, 135);
+	border: 2px solid rgb(26, 26, 26);	
+	border-radius: 5px;
+}
+
+QComboBox
+{
+	font: 10pt &quot;Microsoft JhengHei&quot;;
+	border: 2px solid rgb(26, 26, 26);	
+	border-radius: 5px;
+padding:10px;
+}
+
+QComboBox
+{
+	font: 10pt &quot;Microsoft JhengHei&quot;;
+	border: 2px solid rgb(26, 26, 26);	
+	border-radius: 5px;
+}
+
+QTabWidget::pane {
+    border: 1px solid black;
+    background:rgb(137, 125, 125);
+}
+
+QTabBar::tab
+{
+	background-color: rgb(70, 70, 70);
+	font: 8pt &quot;Microsoft JhengHei&quot;;
+	padding:15px;
+	min-width:20px;
+	border: 2px solid rgb(70,70,70);
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+}
+
+QTabBar::tab:selected, QTabBar::tab:hover
+{
+	
+	background-color: rgb(25, 25, 25);
+}
+</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -29,6 +121,11 @@
     </property>
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -37,6 +134,9 @@
         <string>Zarządzanie Bazą</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <property name="spacing">
@@ -64,11 +164,20 @@
             </property>
             <item row="1" column="2">
              <layout class="QHBoxLayout" name="selectLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <property name="topMargin">
                <number>0</number>
               </property>
               <item>
                <widget class="QComboBox" name="selectComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="minimumSize">
                  <size>
                   <width>150</width>
@@ -122,30 +231,17 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
-             <spacer name="buttonSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="deleteButton">
+              <property name="text">
+               <string>Usuń</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
+             </widget>
             </item>
             <item row="0" column="2">
              <widget class="QPushButton" name="addButton">
               <property name="text">
                <string>Dodaj</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="deleteButton">
-              <property name="text">
-               <string>Usuń</string>
               </property>
              </widget>
             </item>
@@ -159,9 +255,55 @@
        <attribute name="title">
         <string>Wyszukiwanie określonych danych</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4"/>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Wybierz zapytanie do wykonania</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListView" name="listView_queries">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="spacing">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTableView" name="tableView_qdvanced_queries"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -190,6 +332,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

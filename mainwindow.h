@@ -7,6 +7,7 @@
 #include "updatewindow.h"
 #include <QMessageBox>
 #include "deletewindow.h"
+#include "check.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     ~MainWindow();
 
 private slots:
@@ -33,10 +35,16 @@ private slots:
 
     void on_deleteButton_clicked();
 
+    void on_listView_queries_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     dbMenagement *db;
+
     QString query_string;
+
+    QStringListModel *model;
+    QStringList *list;
 };
 
 #endif // MAINWINDOW_H

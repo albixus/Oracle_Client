@@ -18,8 +18,13 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTabWidget" name="tabWidget">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="currentIndex">
-        <number>9</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="passenger_Tab">
         <attribute name="title">

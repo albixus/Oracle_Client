@@ -5,6 +5,7 @@
 #include <QAction>
 #include "dbmenagement.h"
 #include <QMessageBox>
+#include "check.h"
 
 namespace Ui {
 class deleteWindow;
@@ -16,8 +17,12 @@ class deleteWindow : public QDialog
 
 public:
     explicit deleteWindow(dbMenagement *db,QWidget *parent = 0);
-    QString get_query_string() { return query_string; }
+
     ~deleteWindow();
+
+    QString get_query_string() { return query_string; }
+
+public:
     bool is_canceled;
 
 private slots:
@@ -35,13 +40,18 @@ private:
     enum tabs {PASSENGER, WORKER, TRAIN, STATION, COMPARTMENT, CONNECTION, TRAIN_WORKER, TRAIN_STOP, ROUTE, TICKET}current_tab;
     Ui::deleteWindow *ui;
     dbMenagement *db;
+
+    QString id_string;
     QString query_string;
+
     QStringListModel *model;
     QStringList *list;
-    void select_all_from_table(QString table);
+
     int current_index;
-    void get_id_from_table(QModelIndex index, QString &id_string);
-    QString id_string;
+
+private:
+    //making a SELECT * on table given in parameter
+    void select_all_from_table(QString table);
 };
 
 #endif // DELETEWINDOW_H

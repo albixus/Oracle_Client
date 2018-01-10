@@ -3,8 +3,10 @@
 
 #include <QDialog>
 #include <QMessageBox>
+
 #include "dbmenagement.h"
 #include "mainwindow.h"
+#include "check.h"
 
 namespace Ui {
 class addWindow;
@@ -15,10 +17,18 @@ class addWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit addWindow(dbMenagement *db,QWidget *parent = 0);
+    //first argument use to execute queries on database which was connected in mainwindow
+    explicit addWindow(dbMenagement *db, QWidget *parent = 0);
+
     explicit addWindow(QWidget *parent = 0);
+
     ~addWindow();
+
+    //return query to execute in mainwindow
     QString get_query_string() { return query_string; }
+
+public:
+    //checking in what way user closed the window
     bool is_canceled;
 
 private slots:
@@ -51,18 +61,17 @@ private slots:
     void on_tableView_ticket_compartment_clicked(const QModelIndex &index);
 
 private:
-    dbMenagement *db;
-    QString query_string;
-    Ui::addWindow *ui;
     enum tabs {PASSENGER, WORKER, TRAIN, STATION, COMPARTMENT, CONNECTION, TRAIN_WORKER, TRAIN_STOP, ROUTE, TICKET}current_tab;
-    bool string_check(QString str);
-    bool is_string_number(QString str);
+    Ui::addWindow *ui;
+
+    dbMenagement *db;
+
+    QString query_string;
+
     QString id_string;
     QString id_string2;
     QString id_string3;
     QString id_string4;
-
-    void get_id_from_table(QModelIndex index, QString &id_string);
 };
 
 #endif // ADDWINDOW_H

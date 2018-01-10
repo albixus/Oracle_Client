@@ -31,7 +31,7 @@ updateWindow::~updateWindow()
 
 void updateWindow::on_tableView_Passenger_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
     QSqlQuery query;
     query = db->select_query_execute("SELECT * FROM Pasazer WHERE ID_Pasazer = " + id_string);
     query.next();
@@ -156,17 +156,17 @@ void updateWindow::on_buttonBox_accepted()
     switch(index)
     {
     case PASSENGER:
-        if(!string_check(ui->lineEdit_passenger_name->text()))
+        if(!check::string_check(ui->lineEdit_passenger_name->text()))
         {
             QMessageBox::about(this,"Błąd","W Imieniu nie może znajdować się cyfra!");
             return;
         }
-        if(!string_check(ui->lineEdit_passenger_surname->text()))
+        if(!check::string_check(ui->lineEdit_passenger_surname->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwisku nie może znajdować się cyfra!");
             return;
         }
-        if(!is_string_number(ui->lineEdit_passenger_phone->text()))
+        if(!check::is_string_number(ui->lineEdit_passenger_phone->text()))
         {
             QMessageBox::about(this,"Błąd","W Numerze telefonu nie moze znajdować się litera!");
             return;
@@ -184,12 +184,12 @@ void updateWindow::on_buttonBox_accepted()
         break;
 
     case WORKER:
-        if(!string_check(ui->lineEdit_worker_name->text()))
+        if(!check::string_check(ui->lineEdit_worker_name->text()))
         {
             QMessageBox::about(this,"Błąd","W Imieniu nie może znajdować się cyfra!");
             return;
         }
-        if(!string_check(ui->lineEdit_worker_surname->text()))
+        if(!check::string_check(ui->lineEdit_worker_surname->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwisku nie może znajdować się cyfra!");
             return;
@@ -206,7 +206,7 @@ void updateWindow::on_buttonBox_accepted()
         break;
 
     case TRAIN:
-        if(!string_check(ui->lineEdit_train_name->text()))
+        if(!check::string_check(ui->lineEdit_train_name->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwie Pociągu nie może znajdować się cyfra!");
             return;
@@ -223,7 +223,7 @@ void updateWindow::on_buttonBox_accepted()
         break;
 
     case STATION:
-        if(!string_check(ui->lineEdit_station_name->text()))
+        if(!check::string_check(ui->lineEdit_station_name->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwie Stacji nie może znajdować się cyfra!");
             return;
@@ -243,13 +243,13 @@ void updateWindow::on_buttonBox_accepted()
         break;
 
     case CONNECTION:
-        if(!string_check(ui->lineEdit_arrival->text()))
+        if(!check::string_check(ui->lineEdit_arrival->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwie nie może znajdować się cyfra!");
             return;
         }
 
-        if(!string_check(ui->lineEdit_departure->text()))
+        if(!check::string_check(ui->lineEdit_departure->text()))
         {
             QMessageBox::about(this,"Błąd","W Nazwie nie może znajdować się cyfra!");
             return;
@@ -261,7 +261,6 @@ void updateWindow::on_buttonBox_accepted()
         query_string += ui->lineEdit_departure->text();
         query_string += "' WHERE ID_Polaczenie = ";
         query_string += id_string;
-
         break;
 
     case TRAIN_WORKER:
@@ -314,37 +313,6 @@ void updateWindow::on_buttonBox_rejected()
     this->close();
 }
 
-bool updateWindow::string_check(QString str)
-{
-    std::string stdstr = str.toStdString();
-    for(unsigned int i =0; i<stdstr.size(); i++)
-    {
-        if(std::isdigit(stdstr.at(i)))
-          return false;
-    }
-    return true;
-}
-
-bool updateWindow::is_string_number(QString str)
-{
-    std::string stdstr = str.toStdString();
-    for(unsigned int i =0; i<stdstr.size(); i++)
-    {
-        if(std::isdigit(stdstr.at(i)))
-          continue;
-        return false;
-    }
-    return true;
-}
-
-void updateWindow::get_id_from_table(QModelIndex index, QString &id_string)
-{
-    if(index.column()==0)
-        id_string = index.data().toString();
-    else
-        QMessageBox::about(this,"Błąd","Zaznacz ID!");
-}
-
 void updateWindow::on_tableView_Passenger_activated(const QModelIndex &index)
 {
 
@@ -352,7 +320,7 @@ void updateWindow::on_tableView_Passenger_activated(const QModelIndex &index)
 
 void updateWindow::on_tableView_worker_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 
     QSqlQuery query;
     query = db->select_query_execute("SELECT * FROM Pracownik WHERE ID_Pracownik = " + id_string);
@@ -365,7 +333,7 @@ void updateWindow::on_tableView_worker_clicked(const QModelIndex &index)
 
 void updateWindow::on_tableView_train_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 
     QSqlQuery query;
     query = db->select_query_execute("SELECT * FROM Pociag WHERE ID_Pociag = " + id_string);
@@ -375,14 +343,10 @@ void updateWindow::on_tableView_train_clicked(const QModelIndex &index)
     ui->dateEdit_train->setDate(query.value(3).toDate());
 }
 
-void updateWindow::on_tableView_clicked(const QModelIndex &index)
-{
-
-}
 
 void updateWindow::on_tableView_station_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 
     QSqlQuery query;
     query = db->select_query_execute("SELECT * FROM Stacja WHERE ID_Stacja = " + id_string);
@@ -392,17 +356,17 @@ void updateWindow::on_tableView_station_clicked(const QModelIndex &index)
 
 void updateWindow::on_tableView_comparment_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 }
 
 void updateWindow::on_tableView_compartment_train_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string2);
+    check::get_id_from_table(index,id_string2,this);
 }
 
 void updateWindow::on_tableView_connection_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+    check::get_id_from_table(index,id_string,this);
 
     QSqlQuery query;
     query = db->select_query_execute("SELECT * FROM Polaczenie WHERE ID_Polaczenie = " + id_string);
@@ -412,44 +376,40 @@ void updateWindow::on_tableView_connection_clicked(const QModelIndex &index)
     ui->lineEdit_departure->setText(query.value(2).toString());
 }
 
-void updateWindow::on_tableView_2_clicked(const QModelIndex &index)
-{
-
-}
 
 void updateWindow::on_tableView_trainworker_worker_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string);
+     check::get_id_from_table(index,id_string,this);
 }
 
 void updateWindow::on_tableView_trainworker_train_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void updateWindow::on_tableView_trainstop_connection_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+     check::get_id_from_table(index,id_string,this);
 }
 
 void updateWindow::on_tableView_trainstop_station_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void updateWindow::on_tableView_route_connection_clicked(const QModelIndex &index)
 {
-    get_id_from_table(index,id_string);
+     check::get_id_from_table(index,id_string,this);
 }
 
 void updateWindow::on_tableView_route_train_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void updateWindow::on_tableView_ticket_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string);
+     check::get_id_from_table(index,id_string,this);
      QSqlQuery query;
      query = db->select_query_execute("SELECT * FROM Bilet WHERE ID_Bilet = " + id_string);
      query.next();
@@ -477,23 +437,32 @@ void updateWindow::on_tableView_ticket_clicked(const QModelIndex &index)
 
 void updateWindow::on_tableView_ticket_passenger_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string2);
+     check::get_id_from_table(index,id_string2,this);
 }
 
 void updateWindow::on_tableView_ticket_worker_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string3);
+     check::get_id_from_table(index,id_string3,this);
 }
 
 void updateWindow::on_tableView_ticket_connection_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string4);
+     check::get_id_from_table(index,id_string4,this);
 }
 
 void updateWindow::on_tableView_ticket_compartment_clicked(const QModelIndex &index)
 {
-     get_id_from_table(index,id_string5);
+     check::get_id_from_table(index,id_string5,this);
 }
 
 void updateWindow::on_updateWindow_finished(int result)
 {}
+
+void updateWindow::on_tableView_2_clicked(const QModelIndex &index)
+{
+
+}
+void updateWindow::on_tableView_clicked(const QModelIndex &index)
+{
+
+}
