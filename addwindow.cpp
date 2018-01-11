@@ -12,6 +12,7 @@ addWindow::addWindow(dbMenagement *db,QWidget *parent) :
 
     current_tab = (tabs)ui->tabs->currentIndex();
     on_tabs_currentChanged(current_tab);
+
 }
 
 addWindow::addWindow(QWidget *parent):

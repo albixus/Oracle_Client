@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model->setStringList(*list);
     ui->listView_queries->setModel(model);
 
+    curr_tab = (current_table)ui->selectComboBox->currentIndex();
     delete list;
     //db->drop_all_tables();
     //db->create_tables();
@@ -63,6 +64,8 @@ void MainWindow::on_addButton_clicked()
             QMessageBox::about(this,"OK","Udało się dodać pozycję do bazy");
         else
             QMessageBox::critical(this,"Błąd","Nie udało się dodać do bazy");
+
+    refresh_tab_view(curr_tab);
 
     delete add_win;
 }
@@ -109,6 +112,8 @@ void MainWindow::on_selectComboBox_currentIndexChanged(int index)
         ui->tableView->setModel(model);
         break;
     }
+
+    curr_tab =(current_table)index;
 }
 
 void MainWindow::on_tableView_activated(const QModelIndex &index)
@@ -130,6 +135,8 @@ void MainWindow::on_updateButton_clicked()
         else
             QMessageBox::critical(this,"Błąd!","Modyfikacja danych nie powiodła się!");
 
+
+    refresh_tab_view(curr_tab);
     delete update_win;
 }
 
@@ -145,6 +152,9 @@ void MainWindow::on_deleteButton_clicked()
         QMessageBox::about(this,"OK","Modyfikacja danych powiodła się!");
     else
         QMessageBox::critical(this,"Błąd!","Modyfikacja danych nie powiodła się!");
+
+
+    refresh_tab_view(curr_tab);
 }
 
 void MainWindow::on_listView_queries_clicked(const QModelIndex &index)
@@ -281,6 +291,52 @@ void MainWindow::on_listView_queries_clicked(const QModelIndex &index)
         ui->tableView_qdvanced_queries->setModel(model);
         break;
     default:
+        break;
+    }
+}
+
+void MainWindow::refresh_tab_view(int index)
+{
+    QSqlQuery query;
+    QSqlQueryModel *query_model = new QSqlQueryModel();
+
+    switch(index)
+    {
+    case PASSENGER:
+        query = db->select_query_execute("SELECT * FROM PASAZER");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
+        break;
+
+    case WORKER:
+        query = db->select_query_execute("SELECT * FROM Pracownik");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
+        break;
+
+    case TRAIN:
+        query = db->select_query_execute("SELECT * FROM Pociag");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
+        break;
+
+    case STATION:
+        query = db->select_query_execute("SELECT * FROM Stacja");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
+
+        break;
+
+    case CONNECTION:
+        query = db->select_query_execute("SELECT * FROM Polaczenie");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
+        break;
+
+    case TICKET:
+        query = db->select_query_execute("SELECT * FROM Bilet");
+        query_model->setQuery(query);
+        ui->tableView->setModel(query_model);
         break;
     }
 }

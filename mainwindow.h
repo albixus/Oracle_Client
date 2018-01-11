@@ -45,6 +45,10 @@ private:
 
     QStringListModel *model;
     QStringList *list;
+
+    enum current_table {PASSENGER, WORKER, TRAIN, STATION, CONNECTION, TICKET}curr_tab;
+
+    void refresh_tab_view(int index);
 };
 
 #endif // MAINWINDOW_H
